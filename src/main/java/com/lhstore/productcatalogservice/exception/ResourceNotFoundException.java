@@ -1,11 +1,8 @@
 package com.lhstore.productcatalogservice.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+public class ResourceNotFoundException extends GlobalException {
 
-@Getter
-@AllArgsConstructor
-public class ResourceNotFoundException extends RuntimeException {
-
-    private final String errorMessage;
+    public ResourceNotFoundException(String errorMessage) {
+        super(errorMessage);
+    }
 }

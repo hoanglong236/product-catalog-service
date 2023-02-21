@@ -1,6 +1,7 @@
 package com.lhstore.productcatalogservice.exception;
 
 import com.lhstore.productcatalogservice.common.ErrorResponseBody;
+import com.lhstore.productcatalogservice.util.RestUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,7 +17,9 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({ ResourceAlreadyExistsException.class })
     public ErrorResponseBody handleResourceAlreadyExistsException(ResourceAlreadyExistsException e) {
-        final ErrorResponseBody errorResponseBody = new ErrorResponseBody(HttpStatus.BAD_REQUEST);
+        final String currentUriPath = RestUtils.getCurrentUriPath();
+        final ErrorResponseBody errorResponseBody = new ErrorResponseBody(HttpStatus.BAD_REQUEST, currentUriPath);
+
         errorResponseBody.addMessage(e.getErrorMessage());
         return errorResponseBody;
     }
@@ -24,7 +27,9 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler({ ResourceNotFoundException.class })
     public ErrorResponseBody handleResourceNotFoundException(ResourceNotFoundException e) {
-        final ErrorResponseBody errorResponseBody = new ErrorResponseBody(HttpStatus.NOT_FOUND);
+        final String currentUriPath = RestUtils.getCurrentUriPath();
+        final ErrorResponseBody errorResponseBody = new ErrorResponseBody(HttpStatus.NOT_FOUND, currentUriPath);
+
         errorResponseBody.addMessage(e.getErrorMessage());
         return errorResponseBody;
     }
@@ -32,7 +37,8 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({ MethodArgumentNotValidException.class })
     public ErrorResponseBody handleValidationExceptions(MethodArgumentNotValidException e) {
-        final ErrorResponseBody errorResponseBody = new ErrorResponseBody(HttpStatus.BAD_REQUEST);
+        final String currentUriPath = RestUtils.getCurrentUriPath();
+        final ErrorResponseBody errorResponseBody = new ErrorResponseBody(HttpStatus.BAD_REQUEST, currentUriPath);
         final List<ObjectError> allErrors = e.getBindingResult().getAllErrors();
 
         for (final ObjectError error : allErrors) {

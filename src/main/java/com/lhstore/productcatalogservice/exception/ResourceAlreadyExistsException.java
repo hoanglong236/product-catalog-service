@@ -1,11 +1,8 @@
 package com.lhstore.productcatalogservice.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+public class ResourceAlreadyExistsException extends GlobalException {
 
-@Getter
-@AllArgsConstructor
-public class ResourceAlreadyExistsException extends RuntimeException {
-
-    private final String errorMessage;
+    public ResourceAlreadyExistsException(String errorMessage) {
+        super(errorMessage);
+    }
 }
