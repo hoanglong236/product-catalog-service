@@ -1,4 +1,4 @@
-package com.lhstore.productcatalogservice.repository;
+package com.lhstore.productcatalogservice.repository.custom;
 
 public interface CustomCategoryRepository {
 

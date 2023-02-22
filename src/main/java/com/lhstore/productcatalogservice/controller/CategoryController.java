@@ -36,9 +36,9 @@ public class CategoryController {
         this.categoryService.deleteCategory(categoryId);
     }
 
-    @GetMapping(value = "/list-navbar")
+    @GetMapping(value = "/list")
     @ResponseStatus(HttpStatus.OK)
-    public Set<ResponseCategory> retrieveNavbarCategories() {
+    public Set<ResponseCategory> retrieveAllCategories() {
         return this.categoryService.retrieveCategories();
     }
 }

@@ -1,7 +1,7 @@
 package com.lhstore.productcatalogservice.repository;
 
 import com.lhstore.productcatalogservice.model.Category;
-import com.lhstore.productcatalogservice.repository.sql.CategorySql;
+import com.lhstore.productcatalogservice.repository.custom.CustomCategoryRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
