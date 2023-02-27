@@ -1,6 +1,7 @@
-package com.lhstore.productcatalogservice.model;
+package com.lhstore.productcatalogservice.brand;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,16 +19,18 @@ public class Brand {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @Column(name = "name")
+    @NotEmpty(message = "")
     private String name;
 
-    @Column(name = "icon_path")
-    private String iconPath;
+    @Column(name = "logo_path")
+    @NotEmpty(message = "")
+    private String logoPath;
 
-    @Column(name = "deleted_flag")
-    private boolean deletedFlag;
+    @Column(name = "delete_flag")
+    private boolean deleteFlag;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

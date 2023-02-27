@@ -1,4 +1,4 @@
-package com.lhstore.productcatalogservice.dto;
+package com.lhstore.productcatalogservice.brand;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ResponseBrand {
 
-    private Integer id;
+    private int id;
     private String name;
-    private String iconPath;
+    private String logoPath;
 }

@@ -1,4 +1,4 @@
-package com.lhstore.productcatalogservice.dto;
+package com.lhstore.productcatalogservice.brand;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -14,5 +14,6 @@ public class RequestBrand {
 
     @NotEmpty(message = "Brand name is mandatory")
     private String name;
-    private String iconPath;
+    @NotEmpty(message = "")
+    private String logoPath;
 }

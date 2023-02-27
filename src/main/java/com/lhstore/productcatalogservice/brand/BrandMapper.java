@@ -1,7 +1,5 @@
-package com.lhstore.productcatalogservice.mapper;
+package com.lhstore.productcatalogservice.brand;
 
-import com.lhstore.productcatalogservice.dto.ResponseBrand;
-import com.lhstore.productcatalogservice.model.Brand;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -15,7 +13,7 @@ public class BrandMapper {
         return ResponseBrand.builder()
                 .id(brand.getId())
                 .name(brand.getName())
-                .iconPath(brand.getIconPath())
+                .logoPath(brand.getLogoPath())
                 .build();
     }
 
