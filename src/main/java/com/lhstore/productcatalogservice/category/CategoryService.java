@@ -1,12 +1,7 @@
-package com.lhstore.productcatalogservice.service;
+package com.lhstore.productcatalogservice.category;
 
-import com.lhstore.productcatalogservice.dto.RequestCategory;
-import com.lhstore.productcatalogservice.dto.ResponseCategory;
-import com.lhstore.productcatalogservice.exception.ResourceAlreadyExistsException;
-import com.lhstore.productcatalogservice.exception.ResourceNotFoundException;
-import com.lhstore.productcatalogservice.mapper.CategoryMapper;
-import com.lhstore.productcatalogservice.model.Category;
-import com.lhstore.productcatalogservice.repository.CategoryRepository;
+import com.lhstore.productcatalogservice.exceptions.ResourceAlreadyExistsException;
+import com.lhstore.productcatalogservice.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,21 +18,9 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
 
-    private boolean isCategoryIdExists(Integer categoryId) {
-        final Optional<Category> categoryOptional = this.categoryRepository
-                .retrieveCategoryById(categoryId);
-        return categoryOptional.isPresent();
-    }
-
-    private boolean isCategoryNameExists(String categoryName) {
-        final Optional<Category> categoryOptional = this.categoryRepository
-                .retrieveCategoryByName(categoryName);
-        return categoryOptional.isPresent();
-    }
-
     @Transactional
     public void createCategory(RequestCategory requestCategory) {
-        if (isCategoryNameExists(requestCategory.getName())) {
+        if (categoryRepository.isCategoryNameExists(requestCategory.getName())) {
             throw new ResourceAlreadyExistsException("Category name already exists");
         }
 
@@ -46,53 +29,55 @@ public class CategoryService {
         category.setIconPath(requestCategory.getIconPath());
 
         final Integer parentCategoryId = requestCategory.getParentCategoryId();
-        if (parentCategoryId != null && !isCategoryIdExists(parentCategoryId)) {
+        if (parentCategoryId != null && !categoryRepository.isCategoryIdExists(parentCategoryId)) {
             throw new ResourceNotFoundException("Could not find the parent category");
         }
         category.setParentId(parentCategoryId);
 
-        this.categoryRepository.save(category);
+        categoryRepository.save(category);
         log.info("Category {} is saved", category.getId());
     }
 
     @Transactional
-    public void updateCategory(Integer categoryId, RequestCategory requestCategory) {
-        final Optional<Category> categoryOptionalById = this.categoryRepository.retrieveCategoryById(categoryId);
+    public void updateCategory(int categoryId, RequestCategory requestCategory) {
+        final Optional<Category> categoryOptionalById = this.categoryRepository.retrieveById(categoryId);
         if (categoryOptionalById.isEmpty()) {
             throw new ResourceNotFoundException("Could not find the category");
         }
 
         final Category category = categoryOptionalById.get();
         final String requestCategoryName = requestCategory.getName();
-        if (!category.getName().equals(requestCategoryName) && isCategoryNameExists(requestCategoryName)) {
+        if (!category.getName().equals(requestCategoryName) &&
+                categoryRepository.isCategoryNameExists(requestCategoryName)) {
+
             throw new ResourceAlreadyExistsException("Category name already exists");
         }
         category.setName(requestCategoryName);
         category.setIconPath(requestCategory.getIconPath());
 
         final Integer parentCategoryId = requestCategory.getParentCategoryId();
-        if (parentCategoryId != null && !isCategoryIdExists(parentCategoryId)) {
+        if (parentCategoryId != null && !categoryRepository.isCategoryIdExists(parentCategoryId)) {
             throw new ResourceNotFoundException("Could not find the parent category");
         }
         category.setParentId(parentCategoryId);
 
-        this.categoryRepository.save(category);
+        categoryRepository.save(category);
         log.info("Category {} is updated", categoryId);
     }
 
     @Transactional
-    public void deleteCategory(Integer categoryId) {
-        if (!isCategoryIdExists(categoryId)) {
+    public void deleteCategory(int categoryId) {
+        if (!categoryRepository.isCategoryIdExists(categoryId)) {
             throw new ResourceNotFoundException("Could not find the category");
         }
 
-        this.categoryRepository.deleteCategoriesRecursive(categoryId);
+        categoryRepository.deleteCategoryTree(categoryId);
         log.info("Category {} is deleted", categoryId);
     }
 
     @Transactional(readOnly = true)
     public Set<ResponseCategory> retrieveCategories() {
-        final Set<Category> categories = this.categoryRepository.retrieveCategories();
-        return this.categoryMapper.mapToResponseCategories(categories);
+        final Set<Category> categories = categoryRepository.retrieveCategories();
+        return categoryMapper.mapToResponseCategories(categories);
     }
 }

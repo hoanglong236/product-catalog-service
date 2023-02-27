@@ -1,6 +1,5 @@
-package com.lhstore.productcatalogservice.dto;
+package com.lhstore.productcatalogservice.category;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +12,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class RequestCategory {
 
-    @Min(value = 0, message = "Category id must be positive")
     private Integer parentCategoryId;
     @NotEmpty(message = "Category name is mandatory")
     private String name;

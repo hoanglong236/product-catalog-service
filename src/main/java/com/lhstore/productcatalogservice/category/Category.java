@@ -1,6 +1,7 @@
-package com.lhstore.productcatalogservice.model;
+package com.lhstore.productcatalogservice.category;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,19 +19,21 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @Column(name = "parent_id")
     private Integer parentId;
 
     @Column(name = "name")
+    @NotEmpty(message = "")
     private String name;
 
     @Column(name = "icon_path")
+    @NotEmpty(message = "")
     private String iconPath;
 
-    @Column(name = "deleted_flag")
-    private boolean deletedFlag;
+    @Column(name = "delete_flag")
+    private boolean deleteFlag;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

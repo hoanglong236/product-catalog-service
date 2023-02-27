@@ -1,6 +1,5 @@
-package com.lhstore.productcatalogservice.repository.custom;
+package com.lhstore.productcatalogservice.category;
 
-import com.lhstore.productcatalogservice.repository.sql.CategorySql;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
@@ -15,9 +14,9 @@ public class CustomCategoryRepositoryImpl implements CustomCategoryRepository {
 
     @Override
     @Transactional
-    public void deleteCategoriesRecursive(Integer categoryId) {
-        final Query query = this.entityManager.createNativeQuery(CategorySql.generateSqlToDeleteCategoryTree());
-        query.setParameter("id", categoryId);
+    public void deleteCategoryTree(int rootCategoryId) {
+        final Query query = entityManager.createNativeQuery(CategorySql.generateSqlToDeleteCategoryTree());
+        query.setParameter("id", rootCategoryId);
         query.executeUpdate();
     }
 }

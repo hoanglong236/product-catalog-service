@@ -1,7 +1,5 @@
-package com.lhstore.productcatalogservice.mapper;
+package com.lhstore.productcatalogservice.category;
 
-import com.lhstore.productcatalogservice.dto.ResponseCategory;
-import com.lhstore.productcatalogservice.model.Category;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;

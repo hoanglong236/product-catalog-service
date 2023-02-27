@@ -1,6 +1,8 @@
-package com.lhstore.productcatalogservice.repository.sql;
+package com.lhstore.productcatalogservice.category;
 
 public class CategorySql {
+
+    private CategorySql() {}
 
     public static String generateSqlToCreateCategoryTreeCTE() {
         final StringBuilder stringBuilder = new StringBuilder();
