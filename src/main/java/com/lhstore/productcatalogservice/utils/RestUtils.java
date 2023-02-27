@@ -1,4 +1,4 @@
-package com.lhstore.productcatalogservice.util;
+package com.lhstore.productcatalogservice.utils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.context.request.RequestAttributes;
