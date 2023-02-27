@@ -19,14 +19,14 @@ public class ErrorResponseBody {
     private final Set<String> messages = new LinkedHashSet<>();
     private final String path;
 
-    public ErrorResponseBody(HttpStatus httpStatus, String path) {
-        this.timestamp = LocalDateTime.now().format(CUSTOM_FORMATTER);
-        this.httpStatusCode = httpStatus.value();
-        this.error = httpStatus.getReasonPhrase();
-        this.path = path;
+    public ErrorResponseBody(HttpStatus httpStatus, String urlPath) {
+        timestamp = LocalDateTime.now().format(CUSTOM_FORMATTER);
+        httpStatusCode = httpStatus.value();
+        error = httpStatus.getReasonPhrase();
+        path = urlPath;
     }
 
     public void addMessage(String message) {
-        this.messages.add(message);
+        messages.add(message);
     }
 }
