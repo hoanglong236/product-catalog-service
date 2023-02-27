@@ -1,4 +1,4 @@
-package com.lhstore.productcatalogservice.exception;
+package com.lhstore.productcatalogservice.exceptions;
 
 public class ResourceAlreadyExistsException extends GlobalException {
 

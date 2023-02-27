@@ -1,7 +1,7 @@
-package com.lhstore.productcatalogservice.exception;
+package com.lhstore.productcatalogservice.exceptions;
 
 import com.lhstore.productcatalogservice.common.ErrorResponseBody;
-import com.lhstore.productcatalogservice.util.RestUtils;
+import com.lhstore.productcatalogservice.utils.RestUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

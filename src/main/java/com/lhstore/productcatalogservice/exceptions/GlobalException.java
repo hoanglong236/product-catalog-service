@@ -1,4 +1,4 @@
-package com.lhstore.productcatalogservice.exception;
+package com.lhstore.productcatalogservice.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
