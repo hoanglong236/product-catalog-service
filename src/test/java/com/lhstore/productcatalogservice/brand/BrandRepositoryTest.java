@@ -22,7 +22,7 @@ class BrandRepositoryTest extends AbstractTest {
         assertThat(brandRepository).isNotNull();
     }
 
-    private Brand createSetupDeleteBrand() {
+    private Brand givenDeleteBrand() {
         final Brand deleteBrand = new Brand();
         deleteBrand.setName("Test brand 1");
         deleteBrand.setLogoPath("C://test/logo-test.png");
@@ -32,7 +32,7 @@ class BrandRepositoryTest extends AbstractTest {
         return deleteBrand;
     }
 
-    private Brand createSetupUndeleteBrand() {
+    private Brand givenUndeleteBrand() {
         final Brand undeleteBrand = new Brand();
         undeleteBrand.setName("Test brand 2");
         undeleteBrand.setLogoPath("C://test/logo-test.png");
@@ -43,8 +43,8 @@ class BrandRepositoryTest extends AbstractTest {
 
     @Test
     void givenBrands_whenRetrieveWithNotExistsBrandId_thenReturnEmptyOptional() {
-        final Brand deleteBrand = createSetupDeleteBrand();
-        final Brand undeleteBrand = createSetupUndeleteBrand();
+        givenDeleteBrand();
+        givenUndeleteBrand();
 
         final int notExistsBrandId = -999;
         assertThat(brandRepository.retrieveById(notExistsBrandId)).isEmpty();
@@ -52,20 +52,20 @@ class BrandRepositoryTest extends AbstractTest {
 
     @Test
     void givenBrand_whenRetrieveWithDeleteBrandId_thenReturnEmptyOptional() {
-        final Brand deleteBrand = createSetupDeleteBrand();
+        final Brand deleteBrand = givenDeleteBrand();
         assertThat(brandRepository.retrieveById(deleteBrand.getId())).isEmpty();
     }
 
     @Test
     void givenBrand_whenRetrieveWithUndeleteBrandId_thenReturnBrandOptional() {
-        final Brand undeleteBrand = createSetupUndeleteBrand();
+        final Brand undeleteBrand = givenUndeleteBrand();
         assertThat(brandRepository.retrieveById(undeleteBrand.getId())).hasValue(undeleteBrand);
     }
 
     @Test
     void givenBrands_whenRetrieveBrands_thenReturnUndeleteBrands() {
-        final Brand deleteBrand = createSetupDeleteBrand();
-        final Brand undeleteBrand = createSetupUndeleteBrand();
+        final Brand deleteBrand = givenDeleteBrand();
+        final Brand undeleteBrand = givenUndeleteBrand();
 
         final Set<Brand> resultBrands = brandRepository.retrieveBrands();
 
@@ -76,8 +76,8 @@ class BrandRepositoryTest extends AbstractTest {
 
     @Test
     void givenBrands_whenCheckBrandIdExistsWithNotExistsBrandId_thenReturnFalse() {
-        final Brand deleteBrand = createSetupDeleteBrand();
-        final Brand undeleteBrand = createSetupUndeleteBrand();
+        givenDeleteBrand();
+        givenUndeleteBrand();
 
         final int notExistsBrandId = -999;
         assertThat(brandRepository.isBrandIdExists(notExistsBrandId)).isFalse();
@@ -85,20 +85,20 @@ class BrandRepositoryTest extends AbstractTest {
 
     @Test
     void givenBrand_whenCheckBrandIdExistsWithDeleteBrandId_thenReturnFalse() {
-        final Brand deleteBrand = createSetupDeleteBrand();
+        final Brand deleteBrand = givenDeleteBrand();
         assertThat(brandRepository.isBrandIdExists(deleteBrand.getId())).isFalse();
     }
 
     @Test
     void givenBrand_whenCheckBrandIdExistsWithUndeleteBrandId_thenReturnTrue() {
-        final Brand undeleteBrand = createSetupUndeleteBrand();
+        final Brand undeleteBrand = givenUndeleteBrand();
         assertThat(brandRepository.isBrandIdExists(undeleteBrand.getId())).isTrue();
     }
 
     @Test
     void givenBrands_whenCheckBrandNameExistsWithNotExistsBrandName_thenReturnFalse() {
-        final Brand deleteBrand = createSetupDeleteBrand();
-        final Brand undeleteBrand = createSetupUndeleteBrand();
+        givenDeleteBrand();
+        givenUndeleteBrand();
 
         final String notExistsBrandName = "Test brand 3";
         assertThat(brandRepository.isBrandNameExists(notExistsBrandName)).isFalse();
@@ -106,13 +106,13 @@ class BrandRepositoryTest extends AbstractTest {
 
     @Test
     void givenBrand_whenCheckBrandNameExistsWithDeleteBrandName_thenReturnFalse() {
-        final Brand deleteBrand = createSetupDeleteBrand();
+        final Brand deleteBrand = givenDeleteBrand();
         assertThat(brandRepository.isBrandNameExists(deleteBrand.getName())).isFalse();
     }
 
     @Test
     void givenBrand_whenCheckBrandNameExistsWithUndeleteBrandName_thenReturnTrue() {
-        final Brand undeleteBrand = createSetupUndeleteBrand();
+        final Brand undeleteBrand = givenUndeleteBrand();
         assertThat(brandRepository.isBrandNameExists(undeleteBrand.getName())).isTrue();
     }
 }
