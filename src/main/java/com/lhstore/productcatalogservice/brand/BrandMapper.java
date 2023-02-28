@@ -9,17 +9,17 @@ import java.util.stream.Collectors;
 @Component
 public class BrandMapper {
 
-    public ResponseBrand mapToResponseBrand(Brand brand) {
-        return ResponseBrand.builder()
+    public BrandResponse mapToBrandResponse(Brand brand) {
+        return BrandResponse.builder()
                 .id(brand.getId())
                 .name(brand.getName())
                 .logoPath(brand.getLogoPath())
                 .build();
     }
 
-    public Set<ResponseBrand> mapToResponseBrands(Collection<Brand> brands) {
+    public Set<BrandResponse> mapToBrandResponses(Collection<Brand> brands) {
         return brands.stream()
-                .map(this::mapToResponseBrand)
+                .map(this::mapToBrandResponse)
                 .collect(Collectors.toSet());
     }
 }

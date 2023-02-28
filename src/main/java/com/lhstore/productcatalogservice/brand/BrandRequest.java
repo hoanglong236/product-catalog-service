@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RequestBrand {
+public class BrandRequest {
 
     @NotEmpty(message = "Brand name is mandatory")
     private String name;
-    @NotEmpty(message = "")
+    @NotEmpty(message = "Logo path is mandatory")
     private String logoPath;
 }

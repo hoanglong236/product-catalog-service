@@ -16,14 +16,14 @@ public class BrandController {
 
     @PostMapping(value = "/create")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void createBrand(@Valid @RequestBody RequestBrand requestBrand) {
-        brandService.createBrand(requestBrand);
+    public void createBrand(@Valid @RequestBody BrandRequest brandRequest) {
+        brandService.createBrand(brandRequest);
     }
 
     @PutMapping(value = "/update/{id}")
     @ResponseStatus(value = HttpStatus.OK)
-    public void updateBrand(@PathVariable("id") int brandId, @Valid @RequestBody RequestBrand requestBrand) {
-        brandService.updateBrand(brandId, requestBrand);
+    public void updateBrand(@PathVariable("id") int brandId, @Valid @RequestBody BrandRequest brandRequest) {
+        brandService.updateBrand(brandId, brandRequest);
     }
 
     @DeleteMapping(value = "/delete/{id}")
@@ -34,7 +34,7 @@ public class BrandController {
 
     @GetMapping(value = "/list")
     @ResponseStatus(HttpStatus.OK)
-    public Set<ResponseBrand> retrieveAllBrands() {
+    public Set<BrandResponse> retrieveAllBrands() {
         return brandService.retrieveBrands();
     }
 }

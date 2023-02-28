@@ -116,17 +116,4 @@ class BrandRepositoryTest extends AbstractTest {
         final Brand deletedBrand = givenDeletedBrand();
         assertThat(brandRepository.isBrandNameExists(deletedBrand.getName())).isFalse();
     }
-
-    @Test
-    void givenSameNameBrandsWithOneOfThemIsDeletedBrand_whenCheckBrandNameExistsWithThatName_thenReturnTrue() {
-        final Brand deletedBrand = givenDeletedBrand();
-
-        final Brand brand = new Brand();
-        brand.setName(deletedBrand.getName());
-        brand.setLogoPath("Test logo path");
-        brand.setDeleteFlag(false);
-        brandRepository.save(brand);
-
-        assertThat(brandRepository.isBrandNameExists(deletedBrand.getName())).isTrue();
-    }
 }

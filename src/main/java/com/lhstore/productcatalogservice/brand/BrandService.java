@@ -19,14 +19,14 @@ public class BrandService {
     private final BrandMapper brandMapper;
 
     @Transactional
-    public void createBrand(RequestBrand requestBrand) {
-        if (brandRepository.isBrandNameExists(requestBrand.getName())) {
+    public void createBrand(BrandRequest brandRequest) {
+        if (brandRepository.isBrandNameExists(brandRequest.getName())) {
             throw new ResourceAlreadyExistsException("Brand name already exists");
         }
 
         final Brand brand = new Brand();
-        brand.setName(requestBrand.getName());
-        brand.setLogoPath(requestBrand.getLogoPath());
+        brand.setName(brandRequest.getName());
+        brand.setLogoPath(brandRequest.getLogoPath());
         brand.setDeleteFlag(false);
 
         brandRepository.save(brand);
@@ -34,19 +34,19 @@ public class BrandService {
     }
 
     @Transactional
-    public void updateBrand(int brandId, RequestBrand requestBrand) {
+    public void updateBrand(int brandId, BrandRequest brandRequest) {
         final Optional<Brand> brandOptional = brandRepository.retrieveById(brandId);
         if (brandOptional.isEmpty()) {
             throw new ResourceNotFoundException("Could not find the brand");
         }
 
         final Brand brand = brandOptional.get();
-        final String requestBrandName = requestBrand.getName();
-        if (!brand.getName().equals(requestBrandName) && brandRepository.isBrandNameExists(requestBrandName)) {
+        final String brandRequestName = brandRequest.getName();
+        if (!brand.getName().equals(brandRequestName) && brandRepository.isBrandNameExists(brandRequestName)) {
             throw new ResourceAlreadyExistsException("Brand name already exists");
         }
-        brand.setName(requestBrandName);
-        brand.setLogoPath(requestBrand.getLogoPath());
+        brand.setName(brandRequestName);
+        brand.setLogoPath(brandRequest.getLogoPath());
 
         brandRepository.save(brand);
         log.info("Brand {} is updated", brandId);
@@ -67,8 +67,8 @@ public class BrandService {
     }
 
     @Transactional(readOnly = true)
-    public Set<ResponseBrand> retrieveBrands() {
+    public Set<BrandResponse> retrieveBrands() {
         final Set<Brand> brands = brandRepository.retrieveBrands();
-        return brandMapper.mapToResponseBrands(brands);
+        return brandMapper.mapToBrandResponses(brands);
     }
 }
