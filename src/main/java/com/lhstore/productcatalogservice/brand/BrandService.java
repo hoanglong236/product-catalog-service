@@ -27,6 +27,7 @@ public class BrandService {
         final Brand brand = new Brand();
         brand.setName(requestBrand.getName());
         brand.setLogoPath(requestBrand.getLogoPath());
+        brand.setDeleteFlag(false);
 
         brandRepository.save(brand);
         log.info("Brand {} is saved", brand.getId());
