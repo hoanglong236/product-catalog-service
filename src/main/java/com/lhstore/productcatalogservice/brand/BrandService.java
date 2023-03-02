@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -69,6 +70,6 @@ public class BrandService {
     @Transactional(readOnly = true)
     public Set<BrandResponse> retrieveBrands() {
         final Set<Brand> brands = brandRepository.retrieveBrands();
-        return brandMapper.mapToBrandResponses(brands);
+        return brands.stream().map(brandMapper::brandToBrandResponse).collect(Collectors.toSet());
     }
 }
