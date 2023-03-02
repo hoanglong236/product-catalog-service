@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,47 +20,42 @@ public class CategoryService {
     private final CategoryMapper categoryMapper;
 
     @Transactional
-    public void createCategory(RequestCategory requestCategory) {
-        if (categoryRepository.isCategoryNameExists(requestCategory.getName())) {
+    public void createCategory(CategoryRequest categoryRequest) {
+        if (categoryRepository.isCategoryNameExists(categoryRequest.getName())) {
             throw new ResourceAlreadyExistsException("Category name already exists");
+        }
+        final Integer categoryRequestParentId = categoryRequest.getParentId();
+        if (categoryRequestParentId != null && !categoryRepository.isCategoryIdExists(categoryRequestParentId)) {
+            throw new ResourceNotFoundException("Could not find the parent category");
         }
 
         final Category category = new Category();
-        category.setName(requestCategory.getName());
-        category.setIconPath(requestCategory.getIconPath());
-
-        final Integer parentCategoryId = requestCategory.getParentCategoryId();
-        if (parentCategoryId != null && !categoryRepository.isCategoryIdExists(parentCategoryId)) {
-            throw new ResourceNotFoundException("Could not find the parent category");
-        }
-        category.setParentId(parentCategoryId);
+        category.setName(categoryRequest.getName());
+        category.setIconPath(categoryRequest.getIconPath());
+        category.setParentId(categoryRequestParentId);
 
         categoryRepository.save(category);
         log.info("Category {} is saved", category.getId());
     }
 
     @Transactional
-    public void updateCategory(int categoryId, RequestCategory requestCategory) {
+    public void updateCategory(int categoryId, CategoryRequest categoryRequest) {
         final Optional<Category> categoryOptionalById = this.categoryRepository.retrieveById(categoryId);
         if (categoryOptionalById.isEmpty()) {
             throw new ResourceNotFoundException("Could not find the category");
         }
-
-        final Category category = categoryOptionalById.get();
-        final String requestCategoryName = requestCategory.getName();
-        if (!category.getName().equals(requestCategoryName) &&
-                categoryRepository.isCategoryNameExists(requestCategoryName)) {
-
+        if (categoryRepository.isCategoryNameExistsInOtherCategories(categoryRequest.getName(), categoryId)) {
             throw new ResourceAlreadyExistsException("Category name already exists");
         }
-        category.setName(requestCategoryName);
-        category.setIconPath(requestCategory.getIconPath());
-
-        final Integer parentCategoryId = requestCategory.getParentCategoryId();
-        if (parentCategoryId != null && !categoryRepository.isCategoryIdExists(parentCategoryId)) {
+        final Integer categoryRequestParentId = categoryRequest.getParentId();
+        if (categoryRequestParentId != null && !categoryRepository.isCategoryIdExists(categoryRequestParentId)) {
             throw new ResourceNotFoundException("Could not find the parent category");
         }
-        category.setParentId(parentCategoryId);
+
+        final Category category = categoryOptionalById.get();
+        category.setName(categoryRequest.getName());
+        category.setIconPath(categoryRequest.getIconPath());
+        category.setParentId(categoryRequestParentId);
 
         categoryRepository.save(category);
         log.info("Category {} is updated", categoryId);
@@ -76,8 +72,8 @@ public class CategoryService {
     }
 
     @Transactional(readOnly = true)
-    public Set<ResponseCategory> retrieveCategories() {
+    public Set<CategoryResponse> retrieveCategories() {
         final Set<Category> categories = categoryRepository.retrieveCategories();
-        return categoryMapper.mapToResponseCategories(categories);
+        return categories.stream().map(categoryMapper::categoryToCategoryResponse).collect(Collectors.toSet());
     }
 }

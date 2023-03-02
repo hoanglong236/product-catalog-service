@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
-public class CustomCategoryRepositoryImpl implements CustomCategoryRepository {
+public class CategoryRepositoryCustomImpl implements CategoryRepositoryCustom {
 
     @PersistenceContext
     private EntityManager entityManager;

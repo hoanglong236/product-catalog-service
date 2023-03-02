@@ -1,6 +1,6 @@
 package com.lhstore.productcatalogservice.category;
 
-public interface CustomCategoryRepository {
+public interface CategoryRepositoryCustom {
 
     void deleteCategoryTree(int rootCategoryId);
 }

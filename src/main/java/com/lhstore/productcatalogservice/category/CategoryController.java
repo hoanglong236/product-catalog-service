@@ -16,16 +16,16 @@ public class CategoryController {
 
     @PostMapping(value = "/create")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void createCategory(@Valid @RequestBody RequestCategory requestCategory) {
-        categoryService.createCategory(requestCategory);
+    public void createCategory(@Valid @RequestBody CategoryRequest categoryRequest) {
+        categoryService.createCategory(categoryRequest);
     }
 
     @PutMapping(value = "/update/{id}")
     @ResponseStatus(value = HttpStatus.OK)
     public void updateCategory(@PathVariable("id") int categoryId,
-            @Valid @RequestBody RequestCategory requestCategory) {
+            @Valid @RequestBody CategoryRequest categoryRequest) {
 
-        categoryService.updateCategory(categoryId, requestCategory);
+        categoryService.updateCategory(categoryId, categoryRequest);
     }
 
     @DeleteMapping(value = "/delete/{id}")
@@ -36,7 +36,7 @@ public class CategoryController {
 
     @GetMapping(value = "/list")
     @ResponseStatus(HttpStatus.OK)
-    public Set<ResponseCategory> retrieveAllCategories() {
+    public Set<CategoryResponse> retrieveAllCategories() {
         return categoryService.retrieveCategories();
     }
 }

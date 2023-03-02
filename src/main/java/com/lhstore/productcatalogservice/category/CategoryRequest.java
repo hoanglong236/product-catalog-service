@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RequestCategory {
+public class CategoryRequest {
 
-    private Integer parentCategoryId;
+    private Integer parentId;
     @NotEmpty(message = "Category name is mandatory")
     private String name;
     private String iconPath;

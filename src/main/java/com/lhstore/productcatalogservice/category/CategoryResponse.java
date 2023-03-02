@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ResponseCategory {
+public class CategoryResponse {
 
     private int id;
-    private Integer parentCategoryId;
+    private Integer parentId;
     private String name;
     private String iconPath;
 }

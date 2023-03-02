@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<Category, Integer>, CustomCategoryRepository {
+public interface CategoryRepository extends JpaRepository<Category, Integer>, CategoryRepositoryCustom {
 
     @Query("SELECT c FROM Category c WHERE c.deleteFlag = FALSE AND c.id = :id")
     Optional<Category> retrieveById(@Param("id") int categoryId);
@@ -26,4 +26,10 @@ public interface CategoryRepository extends JpaRepository<Category, Integer>, Cu
             "SELECT CASE WHEN COUNT(c) > 0 THEN TRUE ELSE FALSE END " +
             "FROM Category c WHERE c.deleteFlag = FALSE AND c.name = :name")
     boolean isCategoryNameExists(@Param("name") String categoryName);
+
+    @Query("" +
+            "SELECT CASE WHEN COUNT(c) > 0 THEN TRUE ELSE FALSE END " +
+            "FROM Category c WHERE c.deleteFlag = FALSE AND c.name = :name AND c.id != :id")
+    boolean isCategoryNameExistsInOtherCategories(
+            @Param("name") String categoryName, @Param("id") int exceptCategoryId);
 }

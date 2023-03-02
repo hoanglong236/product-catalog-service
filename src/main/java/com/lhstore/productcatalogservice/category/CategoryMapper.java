@@ -2,25 +2,15 @@ package com.lhstore.productcatalogservice.category;
 
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 @Component
 public class CategoryMapper {
 
-    public ResponseCategory mapToResponseCategory(Category category) {
-        return ResponseCategory.builder()
+    public CategoryResponse categoryToCategoryResponse(Category category) {
+        return CategoryResponse.builder()
                 .id(category.getId())
-                .parentCategoryId(category.getParentId())
+                .parentId(category.getParentId())
                 .name(category.getName())
                 .iconPath(category.getIconPath())
                 .build();
-    }
-
-    public Set<ResponseCategory> mapToResponseCategories(Collection<Category> categories) {
-        return categories.stream()
-                .map(this::mapToResponseCategory)
-                .collect(Collectors.toSet());
     }
 }
