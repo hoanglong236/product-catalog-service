@@ -26,4 +26,9 @@ public interface BrandRepository extends JpaRepository<Brand, Integer> {
             "SELECT CASE WHEN COUNT(b) > 0 THEN TRUE ELSE FALSE END " +
             "FROM Brand b WHERE b.deleteFlag = FALSE AND b.name = :name")
     boolean isBrandNameExists(@Param("name") String brandName);
+
+    @Query("" +
+            "SELECT CASE WHEN COUNT(b) > 0 THEN TRUE ELSE FALSE END " +
+            "FROM Brand b WHERE b.deleteFlag = FALSE AND b.name = :name AND b.id != :id")
+    boolean isBrandNameExistsInOtherBrands(@Param("name") String brandName, @Param("id") int exceptBrandId);
 }

@@ -40,13 +40,12 @@ public class BrandService {
         if (brandOptional.isEmpty()) {
             throw new ResourceNotFoundException("Could not find the brand");
         }
-
-        final Brand brand = brandOptional.get();
-        final String brandRequestName = brandRequest.getName();
-        if (!brand.getName().equals(brandRequestName) && brandRepository.isBrandNameExists(brandRequestName)) {
+        if (brandRepository.isBrandNameExistsInOtherBrands(brandRequest.getName(), brandId)) {
             throw new ResourceAlreadyExistsException("Brand name already exists");
         }
-        brand.setName(brandRequestName);
+
+        final Brand brand = brandOptional.get();
+        brand.setName(brandRequest.getName());
         brand.setLogoPath(brandRequest.getLogoPath());
 
         brandRepository.save(brand);
